@@ -1,0 +1,7 @@
+Device 0: Tesla V100-SXM2-32GB
+  Maximum number of threads per block: 1024
+  Maximum sizes of each dimension of a grid: 2147483647 x 65535 x 65535
+
+real	0m0.867s
+user	0m0.009s
+sys	0m0.010s

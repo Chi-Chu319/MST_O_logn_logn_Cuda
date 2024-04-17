@@ -1,7 +1,30 @@
-Device 0: Tesla V100-SXM2-32GB
-  Maximum number of threads per block: 1024
-  Maximum sizes of each dimension of a grid: 2147483647 x 65535 x 65535
+==1376494== NVPROF is profiling process 1376494, command: ./main
+CUDA: 1.188233
+Prim: 1.188233
+==1376494== Profiling application: ./main
+==1376494== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   54.02%  107.65ms         2  53.826ms  53.719ms  53.934ms  [CUDA memcpy DtoH]
+                   16.42%  32.724ms         2  16.362ms  9.3762ms  23.347ms  min_to_cluster_kernel(ClusterEdge*, double const *, int*, int, int, int)
+                   15.28%  30.451ms         2  15.226ms  8.0710ms  22.380ms  min_from_cluster_kernel(ClusterEdge const *, ClusterEdge*, int*, int, int)
+                   13.67%  27.248ms         4  6.8121ms  3.2000us  27.239ms  [CUDA memcpy HtoD]
+                    0.61%  1.2182ms         4  304.55us  302.17us  308.13us  [CUDA memset]
+      API calls:   42.50%  136.97ms         6  22.828ms  41.414us  54.291ms  cudaMemcpy
+                   37.30%  120.18ms         5  24.037ms  4.2430us  119.81ms  cudaMalloc
+                   19.60%  63.148ms         2  31.574ms  17.440ms  45.708ms  cudaDeviceSynchronize
+                    0.27%  873.38us         4  218.34us  5.4650us  840.65us  cudaLaunchKernel
+                    0.21%  689.82us         4  172.45us  7.6510us  323.17us  cudaFree
+                    0.07%  212.77us       101  2.1060us     127ns  98.784us  cuDeviceGetAttribute
+                    0.04%  144.06us         4  36.014us  7.0620us  83.169us  cudaMemset
+                    0.00%  8.6090us         1  8.6090us  8.6090us  8.6090us  cuDeviceGetName
+                    0.00%  4.8530us         1  4.8530us  4.8530us  4.8530us  cuDeviceGetPCIBusId
+                    0.00%  3.6390us         4     909ns     159ns  1.6550us  cudaGetLastError
+                    0.00%  1.8230us         1  1.8230us  1.8230us  1.8230us  cuDeviceTotalMem
+                    0.00%  1.0410us         3     347ns     174ns     668ns  cuDeviceGetCount
+                    0.00%     453ns         2     226ns     133ns     320ns  cuDeviceGet
+                    0.00%     278ns         1     278ns     278ns     278ns  cuModuleGetLoadingMode
+                    0.00%     185ns         1     185ns     185ns     185ns  cuDeviceGetUuid
 
-real	0m0.867s
-user	0m0.009s
-sys	0m0.010s
+real	0m18.893s
+user	0m0.011s
+sys	0m0.005s

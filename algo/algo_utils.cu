@@ -15,20 +15,24 @@ __device__ int get_cluster_machine(int num_vertex_local, int v) {
     return v / num_vertex_local;
 }
 
-__global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, const double* vertices, int* cluster_ids, int n, int num_vertices_local) {
+__global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, const double* vertices, int* cluster_ids, const int n, int num_vertices_local, int k) {
     int i = threadIdx.x;
     int j = blockIdx.x;
 
-    int vertex_local_start = (i * n + j) * num_vertices_local;
+    int vertex_local_start = (j * blockDim.x + i) * num_vertices_local;
+
+    // TODO change n
+    ClusterEdge cluster_edges[4096];
 
     for (int vertex_local = 0; vertex_local < num_vertices_local; ++vertex_local) {
         int from_v = vertex_local + vertex_local_start;
 
-        // init an array of cluster edges with length n
-        ClusterEdge cluster_edges[n];
+        for (int k = 0; k < n; ++k) {
+            cluster_edges[k] = ClusterEdge();
+        }
 
         for (int to_v = 0; to_v < n; ++to_v) {
-            double weight = vertices[vertex_local * n + to_v];
+            double weight = vertices[from_v * n + to_v];
             int from_cluster = get_cluster_leader(cluster_ids, from_v);
             int to_cluster = get_cluster_leader(cluster_ids, to_v);
 
@@ -46,26 +50,31 @@ __global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, const double*
             if (cluster_edges[k].from_v != -1) {
 
                 ClusterEdge edge = cluster_edges[k];
-
                 int to_cluster = get_cluster_leader(cluster_ids, edge.to_v);
-                to_cluster_buf[to_cluster * n + edge.from_v] = edge;
+                to_cluster_buf[edge.from_v * n + to_cluster] = edge;
             }
         }
     }
 }
 
-__global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, int* cluster_ids, int n, int num_vertices_local) {
+__global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, int* cluster_ids, const int n, int num_vertices_local) {
     int i = threadIdx.x;
     int j = blockIdx.x;
 
-    int vertex_local_start = (i * n + j) * num_vertices_local;
+    int vertex_local_start = (j * blockDim.x + i) * num_vertices_local;
+
+    // TODO change n
+    ClusterEdge cluster_edges[4096];
 
     for (int vertex_local = 0; vertex_local < num_vertices_local; ++vertex_local) {
         int vertex = vertex_local + vertex_local_start;
-        ClusterEdge cluster_edges[n];
+
+        for (int k = 0; k < n; ++k) {
+            cluster_edges[k] = ClusterEdge();
+        }
 
         for (int from_v = 0; from_v < n; ++from_v) {
-            ClusterEdge edge = to_cluster_buf[vertex * n + from_v];
+            ClusterEdge edge = to_cluster_buf[from_v * n + vertex];
 
             if (edge.from_v != -1) {
                 int from_cluster = get_cluster_leader(cluster_ids, edge.from_v);
@@ -85,5 +94,4 @@ __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, Clust
             }
         }
     }
-
 }

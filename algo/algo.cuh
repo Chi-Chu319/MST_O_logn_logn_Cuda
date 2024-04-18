@@ -19,7 +19,7 @@ __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, Clust
 
 
 namespace MSTSolver {
-    std::vector<ClusterEdge> algo_cuda(const double* vertices, const int n, int n_block, int n_thread);
+    std::vector<ClusterEdge> algo_cuda(const double* vertices, const int n, int n_block, int n_thread, int num_vertex_local);
     std::vector<int> algo_prim(const double* vertices, const int n);
 }
 

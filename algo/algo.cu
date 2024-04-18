@@ -57,9 +57,8 @@ void cluster_set_finished(int* cluster_ids, bool* cluster_finished, int i) {
 namespace MSTSolver {
 
     //  n is the number of vertices
-    std::vector<ClusterEdge> algo_cuda(const double* vertices, int n, int n_block, int n_thread) {
+    std::vector<ClusterEdge> algo_cuda(const double* vertices, int n, int n_block, int n_thread, int num_vertices_local) {
         int num_vertices = n;
-        int num_vertices_local = 1;
         int k = 0;
 
         int* cluster_ids = new int[n];

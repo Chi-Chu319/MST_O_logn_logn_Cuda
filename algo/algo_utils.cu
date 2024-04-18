@@ -22,7 +22,7 @@ __global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, const double*
     int vertex_local_start = (j * blockDim.x + i) * num_vertices_local;
 
     // TODO change n
-    ClusterEdge cluster_edges[4096];
+    ClusterEdge cluster_edges[8192];
 
     for (int vertex_local = 0; vertex_local < num_vertices_local; ++vertex_local) {
         int from_v = vertex_local + vertex_local_start;
@@ -64,7 +64,7 @@ __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, Clust
     int vertex_local_start = (j * blockDim.x + i) * num_vertices_local;
 
     // TODO change n
-    ClusterEdge cluster_edges[4096];
+    ClusterEdge cluster_edges[8192];
 
     for (int vertex_local = 0; vertex_local < num_vertices_local; ++vertex_local) {
         int vertex = vertex_local + vertex_local_start;

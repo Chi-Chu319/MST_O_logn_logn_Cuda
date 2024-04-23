@@ -16,7 +16,11 @@ struct ClusterEdge {
 __device__ int get_cluster_machine(int num_vertex_local, int v);
 __global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, const double* vertices, int* cluster_ids, const  int n, int num_vertices_local, int k);
 __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, int* cluster_ids, const int n, int num_vertices_local);
+__global__ void speedup_kernel(const double* vertices, ClusterEdge* from_cluster_buf, const int n, int num_vertices_local);
 
+
+double* generate_clique_graph(int n);
+double* generate_sparse_graph(int n, int m);
 
 namespace MSTSolver {
     std::vector<ClusterEdge> algo_cuda(const double* vertices, const int n, int n_block, int n_thread, int num_vertex_local);

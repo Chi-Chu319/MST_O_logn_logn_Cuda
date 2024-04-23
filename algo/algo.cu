@@ -58,6 +58,8 @@ namespace MSTSolver {
 
     //  n is the number of vertices
     std::vector<ClusterEdge> algo_cuda(const double* vertices, int n, int n_block, int n_thread, int num_vertices_local) {
+        float cpu_time = 0;
+
         int num_vertices = n;
         int k = 0;
 
@@ -102,17 +104,29 @@ namespace MSTSolver {
             CHECK(cudaMemset(from_cluster_bufGPU, 0, n * n * sizeof(ClusterEdge)));
             CHECK(cudaMemcpy(cluster_idsGPU, cluster_ids, n * sizeof(int), cudaMemcpyHostToDevice));
 
-            // TODO nvprof bencharmking check running time of kernel!!!!
-            min_to_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, verticesGPU, cluster_idsGPU, n, num_vertices_local, k);
 
-            CHECK(cudaGetLastError());
+            // if (k == 0) {
+            //     speedup_kernel<<<n_block, n_thread>>>(vertices, from_cluster_buf, n, num_vertices_local);
+            //     CHECK(cudaGetLastError());
+            // }
+            // else {
+                min_to_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, verticesGPU, cluster_idsGPU, n, num_vertices_local, k);
+                CHECK(cudaGetLastError());
 
-            min_from_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, from_cluster_bufGPU, cluster_idsGPU, n, num_vertices_local);
-            CHECK(cudaGetLastError());
+                min_from_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, from_cluster_bufGPU, cluster_idsGPU, n, num_vertices_local);
+                CHECK(cudaGetLastError());
+            // }
 
             CHECK(cudaDeviceSynchronize());
 
             CHECK(cudaMemcpy(from_cluster_buf, from_cluster_bufGPU, n * n * sizeof(ClusterEdge), cudaMemcpyDeviceToHost));
+
+            // start timer
+            cudaEvent_t start, stop;
+            cudaEventCreate(&start);
+            cudaEventCreate(&stop);
+            cudaEventRecord(start);
+            cudaEventSynchronize(start);
 
             // rank 0 merge edges
             std::vector<ClusterEdge> edges_to_add;
@@ -202,6 +216,14 @@ namespace MSTSolver {
             for (int i = 0; i < n; ++i) {
                 cluster_sizes[i] = 1;
             }
+
+            // end timer
+            cudaEventRecord(stop);
+            cudaEventSynchronize(stop);
+
+            float milliseconds = 0;
+            cudaEventElapsedTime(&milliseconds, start, stop);
+            cpu_time += milliseconds;
         }
 
         CHECK(cudaFree(verticesGPU));
@@ -213,6 +235,9 @@ namespace MSTSolver {
         delete[] cluster_ids;
         delete[] cluster_sizes;
         delete[] from_cluster_buf;
+
+        // print cpu time
+        std::cout << "CPU time: " << cpu_time << std::endl;
 
         return mst_edges;
     }

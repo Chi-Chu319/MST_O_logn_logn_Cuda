@@ -39,9 +39,7 @@ Ensure that `mst_job.sh` is properly configured for your computing environment a
 
 ## How to Debug
 
-For debugging, this project supports debugging with DDT. To start a debugging session, you will need to load the DDT module, allocate resources using `salloc`, and then start DDT in offline mode with `srun`. Here are the steps:
-
-1. Use the compute compute-sanitizer:
+1. Use the compute-sanitizer:
 ```
 srun compute-sanitizer main
 ```

@@ -1,5 +1,5 @@
 ==46161== NVPROF is profiling process 46161, command: ./main
-Time: 66462.812500
+Time: 66,462.812500
 ==46161== Profiling application: ./main
 ==46161== Profiling result:
             Type  Time(%)      Time     Calls       Avg       Min       Max  Name
@@ -31,3 +31,11 @@ Time: 66462.812500
 real	1m8.072s
 user	0m0.012s
 sys	0m0.004s
+
+total time
+124.256067
+
+mpi time
+57.557262
+local computation
+66.698805

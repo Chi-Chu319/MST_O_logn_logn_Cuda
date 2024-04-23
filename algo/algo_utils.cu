@@ -95,3 +95,32 @@ __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, Clust
         }
     }
 }
+
+__global__ void speedup_kernel(const double* vertices, ClusterEdge* from_cluster_buf, const int n, int num_vertices_local) {
+    int i = threadIdx.x;
+    int j = blockIdx.x; 
+
+    int vertex_local_start = (j * blockDim.x + i) * num_vertices_local;
+
+    for (int vertex_local = 0; vertex_local < num_vertices_local; ++vertex_local) {
+        int from_v = vertex_local + vertex_local_start;
+
+        double min_weight = DBL_MAX;
+        int min_to_v;
+
+        for (int to_v = 0; to_v < n; ++to_v) {
+            if (from_v == to_v) {
+                continue;
+            }
+
+            double weight = vertices[from_v * n + to_v];
+            // update min_weight
+            if (weight < min_weight) {
+                min_weight = weight;
+                min_to_v = to_v;
+            } 
+        }
+
+        from_cluster_buf[from_v * n + min_to_v] = ClusterEdge(from_v, min_to_v, min_weight);
+    }
+}

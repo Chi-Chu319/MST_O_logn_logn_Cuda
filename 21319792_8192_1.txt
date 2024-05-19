@@ -1,7 +1,0 @@
-==114031== NVPROF is profiling process 114031, command: ./main
-==114031== Error: Cannot create profiling file: /tmp/wutianxi/21319792/.nvprof/nvprof-tmp-114031-r18g06.bullx
-==114031== Profiling application: ./main
-
-real	0m2.646s
-user	0m0.013s
-sys	0m0.003s

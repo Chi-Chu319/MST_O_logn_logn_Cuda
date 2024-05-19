@@ -3,63 +3,56 @@
 #include <stdio.h>
 #include "algo.cuh"
 #include <float.h>
+#include <iostream>
+#include <cstdlib> // For atoi()
 
-// int main() {
-//     int n_block = 1;
-//     int n_thread = 8192;
-//     const int n = 8192;
-//     int num_vertex_local = 1;
+int main(int argc, char* argv[]) {
+    if (argc < 5) {
+        return 1;
+    }
 
-//     // double *vertices = generate_clique_graph(n);
-//     double vertices[n * n];
-//     for (int i = 0; i < n; ++i) {
-//         for (int j = i + 1; j < n; ++j) {
-//             vertices[i * n + j] = (double)rand() / RAND_MAX;
-//             vertices[j * n + i] = vertices[i * n + j];
-//         }
-//     }
+    // Parse the arguments
+    int n_block = std::atoi(argv[1]);
+    int n_thread = std::atoi(argv[2]);
+    const int n = std::atoi(argv[3]);
+    int num_vertex_local = std::atoi(argv[4]);
 
-//     for (int i = 0; i < n; ++i) {
-//         vertices[i * n + i] = 200;
-//     }
+    // int n_block = 8;
+    // int n_thread = 1024;
+    // const int n = 8192;
+    // int num_vertex_local = 1;
 
-//     // start timer
-//     cudaEvent_t start, stop;
-//     cudaEventCreate(&start);
-//     cudaEventCreate(&stop);
-//     cudaEventRecord(start);
+    // double *vertices = generate_clique_graph(n);
+    double* vertices = generate_clique_graph(n);
 
-
-//     std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
-//     // std::vector<int> prim_parents = MSTSolver::algo_prim(vertices, n);
-
-//     // end timer
-//     cudaEventRecord(stop);
-//     cudaEventSynchronize(stop);
-//     float milliseconds = 0;
-//     cudaEventElapsedTime(&milliseconds, start, stop);
-//     printf("Time: %f\n", milliseconds);
+    // start timer
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
 
 
-//     // double cuda_weights = 0;
-//     // for (int i = 0; i < cuda_result.size(); i++) {
-//     //     cuda_weights += cuda_result[i].weight;
-//     // }
+    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
+    std::vector<int> prim_parents = MSTSolver::algo_prim(vertices, n);
 
-//     // double prim_weights = 0;
-//     // for (int i = 1; i < n; i++) {
-//     //     prim_weights += vertices[i * n + prim_parents[i]];
-//     // }
+    // end timer
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    printf("Time: %f\n", milliseconds);
 
-//     // printf("CUDA: %f\n", cuda_weights);
-//     // printf("Prim: %f\n", prim_weights);
-// }
+    double cuda_weights = 0;
+    for (int i = 0; i < cuda_result.size(); i++) {
+        cuda_weights += cuda_result[i].weight;
+    }
 
-__global__ void cuda_hello(){
-    printf("Hello World from GPU!\n");
+    double prim_weights = 0;
+    for (int i = 1; i < n; i++) {
+        prim_weights += vertices[i * n + prim_parents[i]];
+    }
+
+    printf("CUDA: %f\n", cuda_weights);
+    printf("Prim: %f\n", prim_weights);
 }
 
-int main() {
-    cuda_hello<<<1,1>>>(); 
-    return 0;
-}

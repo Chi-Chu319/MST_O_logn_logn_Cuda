@@ -6,6 +6,7 @@
 #include <map>
 #include <algorithm>
 #include <set>
+#include <chrono>
 
 static inline void check(cudaError_t err, const char* context) {
     if (err != cudaSuccess) {
@@ -18,12 +19,11 @@ static inline void check(cudaError_t err, const char* context) {
 #define CHECK(x) check(x, #x)
 
 int get_cluster_leader_host(int* cluster_ids, int v) {
-    int leader = v;
-    while (cluster_ids[leader] != leader) {
-        leader = cluster_ids[leader];
+    if (cluster_ids[v] != v) {
+        cluster_ids[v] = get_cluster_leader_host(cluster_ids, cluster_ids[v]);
     }
 
-    return leader;
+    return cluster_ids[v];
 }
 
 bool get_cluster_finished(int* cluster_ids, bool* cluster_finished, int v) {
@@ -31,7 +31,7 @@ bool get_cluster_finished(int* cluster_ids, bool* cluster_finished, int v) {
     return cluster_finished[leader];
 }
 
-bool cluster_safe_union(int* cluster_ids, int* cluster_size, int p, int q) {
+bool cluster_safe_union(int* cluster_ids, int* cluster_sizes, int p, int q) {
     int i = get_cluster_leader_host(cluster_ids, p);
     int j = get_cluster_leader_host(cluster_ids, q);
 
@@ -39,13 +39,13 @@ bool cluster_safe_union(int* cluster_ids, int* cluster_size, int p, int q) {
         return false;
     }
 
-    if (cluster_size[i] < cluster_size[j]) {
+    if (cluster_sizes[i] < cluster_sizes[j]) {
         cluster_ids[i] = j;
-        cluster_size[j] += cluster_size[i];
+        cluster_sizes[j] += cluster_sizes[i];
         return true;
     } else {
         cluster_ids[j] = i;
-        cluster_size[i] += cluster_size[j];
+        cluster_sizes[i] += cluster_sizes[j];
         return true;
     }
 }
@@ -80,6 +80,10 @@ namespace MSTSolver {
         CHECK(cudaMalloc((void**)&cluster_idsGPU, n * sizeof(int)));
         CHECK(cudaMemcpy(cluster_idsGPU, cluster_ids, n * sizeof(int), cudaMemcpyHostToDevice));
         
+        int* cluster_sizesGPU = NULL;
+        CHECK(cudaMalloc((void**)&cluster_sizesGPU, n * sizeof(int)));
+        CHECK(cudaMemcpy(cluster_sizesGPU, cluster_sizes, n * sizeof(int), cudaMemcpyHostToDevice));
+
         double* verticesGPU = NULL;
         CHECK(cudaMalloc((void**)&verticesGPU, n * n * sizeof(double)));
         CHECK(cudaMemcpy(verticesGPU, vertices, n * n * sizeof(double), cudaMemcpyHostToDevice));
@@ -100,40 +104,36 @@ namespace MSTSolver {
         ClusterEdge* from_cluster_buf = new ClusterEdge[n * n];
 
         while (true) {
-            CHECK(cudaMemset(to_cluster_bufGPU, 0, n * n * sizeof(ClusterEdge)));
-            CHECK(cudaMemset(from_cluster_bufGPU, 0, n * n * sizeof(ClusterEdge)));
+            CHECK(cudaMemset(to_cluster_bufGPU, -1, n * n * sizeof(ClusterEdge)));
+            CHECK(cudaMemset(from_cluster_bufGPU, -1, n * n * sizeof(ClusterEdge)));
             CHECK(cudaMemcpy(cluster_idsGPU, cluster_ids, n * sizeof(int), cudaMemcpyHostToDevice));
+            CHECK(cudaMemcpy(cluster_sizesGPU, cluster_sizes, n * sizeof(int), cudaMemcpyHostToDevice));
 
-
-            // if (k == 0) {
-            //     speedup_kernel<<<n_block, n_thread>>>(vertices, from_cluster_buf, n, num_vertices_local);
-            //     CHECK(cudaGetLastError());
-            // }
-            // else {
-                min_to_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, verticesGPU, cluster_idsGPU, n, num_vertices_local, k);
+            if (k == 100) {
+                speedup_kernel<<<n_block, n_thread>>>(verticesGPU, from_cluster_bufGPU, n, num_vertices_local);
+                CHECK(cudaGetLastError());
+            }
+            else {
+                min_to_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, verticesGPU, cluster_idsGPU, n, num_vertices_local);
                 CHECK(cudaGetLastError());
 
-                min_from_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, from_cluster_bufGPU, cluster_idsGPU, n, num_vertices_local);
+                min_from_cluster_kernel<<<n_block, n_thread>>>(to_cluster_bufGPU, from_cluster_bufGPU, cluster_idsGPU, cluster_sizesGPU, n, num_vertices_local);
                 CHECK(cudaGetLastError());
-            // }
+            }
 
             CHECK(cudaDeviceSynchronize());
 
             CHECK(cudaMemcpy(from_cluster_buf, from_cluster_bufGPU, n * n * sizeof(ClusterEdge), cudaMemcpyDeviceToHost));
 
-            // start timer
-            cudaEvent_t start, stop;
-            cudaEventCreate(&start);
-            cudaEventCreate(&stop);
-            cudaEventRecord(start);
-            cudaEventSynchronize(start);
+            // start timer in C++ way
+            auto start_cpu = std::chrono::high_resolution_clock::now();
 
             // rank 0 merge edges
             std::vector<ClusterEdge> edges_to_add;
 
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
-                    if (from_cluster_buf[i * n + j].from_v != 0) {
+                    if (from_cluster_buf[i * n + j].from_v != -1) {
                         edges_to_add.push_back(from_cluster_buf[i * n + j]);
                     }
                 }
@@ -145,13 +145,16 @@ namespace MSTSolver {
 
             std::vector<bool> heaviest_edges(edges_to_add.size());
             std::fill(heaviest_edges.begin(), heaviest_edges.end(), false);
-            std::map<int, bool> encountered_clusters;
+            // init bool arr with size n called encountered_clusters
+            bool encountered_clusters[n] = {false};
+
+            std::cout << "edges_to_add.size(): " << edges_to_add.size() << std::endl;
 
             for (int i = edges_to_add.size() - 1; i >= 0; --i) {
                 ClusterEdge edge = edges_to_add[i];
                 int to_cluster = get_cluster_leader_host(cluster_ids, edge.to_v);
 
-                if (encountered_clusters.find(to_cluster) == encountered_clusters.end()) {
+                if (!encountered_clusters[to_cluster]) {
                     encountered_clusters[to_cluster] = true;
                     heaviest_edges[i] = true;
                 }
@@ -176,6 +179,7 @@ namespace MSTSolver {
                 bool merged = cluster_safe_union(cluster_ids, cluster_sizes, from_cluster, to_cluster);
 
                 if (merged) {
+                    num_clusters--;
                     mst_edges.push_back(edge);
                     if (heaviest_edges[i] || (from_cluster_finished || to_cluster_finished)) {
                         cluster_set_finished(cluster_ids, cluster_finished, from_cluster);
@@ -190,11 +194,16 @@ namespace MSTSolver {
 
             delete[] cluster_finished;
 
-            // count the number of unique numbers in cluster_ids
-            std::set<int> unique_cluster_finder_id(cluster_ids, cluster_ids + num_vertices);
-            num_clusters = unique_cluster_finder_id.size();
-
             k++;
+
+            // end timer
+            auto end_cpu = std::chrono::high_resolution_clock::now();
+
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_cpu - start_cpu);
+
+            cpu_time += duration.count();
+            std::cout << "num_clusters: " << num_clusters << std::endl;
+
 
             if (k >= 10) {
                 throw std::runtime_error("k >= 10");
@@ -203,27 +212,6 @@ namespace MSTSolver {
             if (num_clusters == 1) {
                 break;
             }
-
-            // flatten cluster_ids
-            int* new_cluster_ids = new int[n];
-            for (int i = 0; i < n; i++) {
-                new_cluster_ids[i] = get_cluster_leader_host(cluster_ids, i);
-            }
-
-            delete[] cluster_ids;
-            cluster_ids = new_cluster_ids;
-
-            for (int i = 0; i < n; ++i) {
-                cluster_sizes[i] = 1;
-            }
-
-            // end timer
-            cudaEventRecord(stop);
-            cudaEventSynchronize(stop);
-
-            float milliseconds = 0;
-            cudaEventElapsedTime(&milliseconds, start, stop);
-            cpu_time += milliseconds;
         }
 
         CHECK(cudaFree(verticesGPU));

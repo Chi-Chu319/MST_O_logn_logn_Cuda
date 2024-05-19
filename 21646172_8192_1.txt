@@ -1,0 +1,641 @@
+========= COMPUTE-SANITIZER
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (384,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (385,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (386,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (387,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (388,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (389,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (390,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (391,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (392,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (393,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (394,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (395,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (396,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (397,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (398,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (399,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (400,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (401,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (402,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (403,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (404,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at 0x1e50 in /users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:40:quickSortIterative(int *, ClusterEdge *, int, int)
+=========     by thread (405,0,0) in block (0,0,0)
+=========     Address 0x0 is out of bounds
+=========     and is 8,719,958,016 bytes before the nearest allocation at 0x207c00000 of size 8,388,864 bytes
+=========     Device Frame:/users/wutianxi/MST_O_logn_logn_Cuda/algo/algo_utils.cu:141:min_from_cluster_kernel(const ClusterEdge *, ClusterEdge *, int *, int *, int, int) [0x1e40]
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========     Host Frame: [0x332470]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:__cudart808 [0x1003b]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaLaunchKernel [0x6b7d8]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:cudaError cudaLaunchKernel<char>(char const*, dim3, dim3, void**, unsigned long, CUstream_st*) [0x5c49]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__device_stub__Z23min_from_cluster_kernelPK11ClusterEdgePS_PiS3_ii(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x5564]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:min_from_cluster_kernel(ClusterEdge const*, ClusterEdge*, int*, int*, int, int) [0x55af]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x6627]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+========= Program hit cudaErrorLaunchFailure (error 719) due to "unspecified launch failure" on CUDA API call to cudaDeviceSynchronize.
+=========     Saved host backtrace up to driver entry point at error
+=========     Host Frame: [0x481df6]
+=========                in /lib64/libcuda.so.1
+=========     Host Frame:cudaDeviceSynchronize [0x46457]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:MSTSolver::algo_cuda(double const*, int, int, int, int) [0x663d]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:main [0xb663]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+=========     Host Frame:__libc_start_main [0x3acf3]
+=========                in /lib64/libc.so.6
+=========     Host Frame:_start [0x508e]
+=========                in /users/wutianxi/MST_O_logn_logn_Cuda/./main
+========= 
+CUDA error: cudaDeviceSynchronize(): unspecified launch failure
+========= Target application returned an error
+========= ERROR SUMMARY: 23 errors
+srun: error: r14g04: task 0: Exited with exit code 1
+srun: Terminating StepId=21646172.0
+
+real	1m17.538s
+user	0m0.013s
+sys	0m0.008s

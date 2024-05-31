@@ -1,0 +1,11 @@
+==1632168== NVPROF is profiling process 1632168, command: ./main 1 4 8192 2048
+edges_to_add.size(): 8192
+num_clusters: 2052
+slurmstepd: error: *** STEP 21647881.0 ON r04g05 CANCELLED AT 2024-05-19T06:49:35 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** JOB 21647881 ON r04g05 CANCELLED AT 2024-05-19T06:49:35 DUE TO TIME LIMIT ***
+==1632168== Profiling application: ./main 1 4 8192 2048
+==1632168== Profiling result:
+No kernels were profiled.
+No API activities were profiled.
+==1632168== Warning: Some profiling data are not recorded.

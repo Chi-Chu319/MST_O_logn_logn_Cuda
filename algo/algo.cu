@@ -31,6 +31,23 @@ bool get_cluster_finished(int* cluster_ids, bool* cluster_finished, int v) {
     return cluster_finished[leader];
 }
 
+void compute_cluster_leader_sizes(int* cluster_leader_sizes, int* cluster_ids, int* v_indices, int n) {
+    for (int i = 0; i < n + 1; ++i) {
+        cluster_leader_sizes[i] = 0;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        int leader = get_cluster_leader_host(cluster_ids, i);
+        //  shifted to the right by 1
+        cluster_leader_sizes[leader + 1] += (v_indices[i + 1] - v_indices[i]);
+    }
+
+    // compute prefix sum of cluster_leader_sizes
+    for (int i = 1; i < n + 1; ++i) {
+        cluster_leader_sizes[i] += cluster_leader_sizes[i - 1];
+    }
+}
+
 bool cluster_safe_union(int* cluster_ids, int* cluster_sizes, int p, int q) {
     int i = get_cluster_leader_host(cluster_ids, p);
     int j = get_cluster_leader_host(cluster_ids, q);
@@ -153,8 +170,6 @@ namespace MSTSolver {
             // init bool arr with size n called encountered_clusters
             bool encountered_clusters[n] = {false};
 
-            std::cout << "edges_to_add.size(): " << edges_to_add.size() << std::endl;
-
             for (int i = edges_to_add.size() - 1; i >= 0; --i) {
                 ClusterEdge edge = edges_to_add[i];
                 int to_cluster = get_cluster_leader_host(cluster_ids, edge.to_v);
@@ -207,8 +222,6 @@ namespace MSTSolver {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_cpu - start_cpu);
 
             cpu_time += duration.count();
-            std::cout << "num_clusters: " << num_clusters << std::endl;
-
 
             if (k >= 10) {
                 throw std::runtime_error("k >= 10");
@@ -256,11 +269,10 @@ namespace MSTSolver {
             cluster_sizes[i] = 1;
         }
 
-        int* prefix_sum_sizes = new int[n];
-        prefix_sum_sizes[0] = graph.sizes[0];
-        for (int i = 1; i < n; ++i) {
-            prefix_sum_sizes[i] = prefix_sum_sizes[i - 1] + graph.sizes[i];
-        }
+        // Total degree of a cluster 
+        // cluster leader index => buffer start (from cluster buffer)
+        // cluster leader index + ! => buffer end (end cluster buffer)
+        int* cluster_leader_sizes = new int[n + 1];
 
         std::vector<ClusterEdge> mst_edges = std::vector<ClusterEdge>();
         int* cluster_idsGPU = NULL;
@@ -275,14 +287,10 @@ namespace MSTSolver {
         CHECK(cudaMalloc((void**)&edgesGPU, 2 * m * sizeof(SparseGraphEdge)));
         CHECK(cudaMemcpy(edgesGPU, graph.edges, 2 * m * sizeof(SparseGraphEdge), cudaMemcpyHostToDevice));
         
-        int* sizesGPU = NULL;
-        CHECK(cudaMalloc((void**)&sizesGPU, n * sizeof(int)));
-        CHECK(cudaMemcpy(sizesGPU, graph.sizes, n * sizeof(int), cudaMemcpyHostToDevice));
+        int* v_indicesGPU = NULL;
+        CHECK(cudaMalloc((void**)&v_indicesGPU, (n + 1) * sizeof(int)));
+        CHECK(cudaMemcpy(v_indicesGPU, graph.v_indices, (n + 1) * sizeof(int), cudaMemcpyHostToDevice));
         
-        int* prefix_sum_sizesGPU = NULL;
-        CHECK(cudaMalloc((void**)&prefix_sum_sizesGPU, n * sizeof(int)));
-        CHECK(cudaMemcpy(prefix_sum_sizesGPU, prefix_sum_sizes, n * sizeof(int), cudaMemcpyHostToDevice));
-
         ClusterEdge* min_edges_bufGPU = NULL;
         CHECK(cudaMalloc((void**)&min_edges_bufGPU, 2 * m * sizeof(ClusterEdge)));
  
@@ -293,19 +301,26 @@ namespace MSTSolver {
         CHECK(cudaMalloc((void**)&from_cluster_bufGPU, 2 * m * sizeof(ClusterEdge)));
 
         int* min_edges_stack_bufGPU = NULL;
-        CHECK(cudaMalloc((void**)&min_edges_stack_bufGPU, n * n * sizeof(int)));
+        CHECK(cudaMalloc((void**)&min_edges_stack_bufGPU, 2 * m * sizeof(int)));
+
+        int* cluster_leader_sizesGPU = NULL;
+        CHECK(cudaMalloc((void**)&cluster_leader_sizesGPU, (n + 1) * sizeof(int)));
 
         int num_clusters = n;
 
-        ClusterEdge* from_cluster_buf = new ClusterEdge[n * n];
+        ClusterEdge* from_cluster_buf = new ClusterEdge[2 * m];
 
         while (true) {
-            CHECK(cudaMemset(min_edges_bufGPU, -1, 2 * m * sizeof(ClusterEdge)));
+            compute_cluster_leader_sizes(cluster_leader_sizes, cluster_ids, graph.v_indices, n);
+
             CHECK(cudaMemset(to_cluster_bufGPU, -1, 2 * m * sizeof(ClusterEdge)));
-            CHECK(cudaMemset(min_edges_stack_bufGPU, -1, n * n * sizeof(int)));
             CHECK(cudaMemset(from_cluster_bufGPU, -1, 2 * m * sizeof(ClusterEdge)));
+            CHECK(cudaMemset(min_edges_bufGPU, -1, 2 * m * sizeof(ClusterEdge)));
+            CHECK(cudaMemset(min_edges_stack_bufGPU, -1, 2 * m * sizeof(int)));
+
             CHECK(cudaMemcpy(cluster_idsGPU, cluster_ids, n * sizeof(int), cudaMemcpyHostToDevice));
             CHECK(cudaMemcpy(cluster_sizesGPU, cluster_sizes, n * sizeof(int), cudaMemcpyHostToDevice));
+            CHECK(cudaMemcpy(cluster_leader_sizesGPU, cluster_leader_sizes, (n + 1) * sizeof(int), cudaMemcpyHostToDevice));
 
             if (k == 100) {
                 // speedup_kernel<<<n_block, n_thread>>>(verticesGPU, from_cluster_bufGPU, n, num_vertices_local);
@@ -316,27 +331,27 @@ namespace MSTSolver {
                     to_cluster_bufGPU,
                     min_edges_bufGPU,
                     edgesGPU,
-                    sizesGPU,
-                    prefix_sum_sizesGPU,
+                    v_indicesGPU,
                     cluster_idsGPU,
                     n,
                     num_vertices_local
                 );
                 CHECK(cudaGetLastError());
 
+                CHECK(cudaMemset(min_edges_bufGPU, -1, 2 * m * sizeof(ClusterEdge)));
+
                 min_from_cluster_kernel_sparse<<<n_block, n_thread>>>(
                     to_cluster_bufGPU,
                     from_cluster_bufGPU,
                     min_edges_bufGPU,
                     min_edges_stack_bufGPU,
-                    sizesGPU,
-                    prefix_sum_sizesGPU,
+                    v_indicesGPU,
+                    cluster_leader_sizesGPU,
                     cluster_idsGPU,
                     cluster_sizesGPU,
                     n,
                     num_vertices_local
                 );
-                
                 CHECK(cudaGetLastError());
             }
 
@@ -350,11 +365,9 @@ namespace MSTSolver {
             // rank 0 merge edges
             std::vector<ClusterEdge> edges_to_add;
 
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    if (from_cluster_buf[i * n + j].from_v != -1) {
-                        edges_to_add.push_back(from_cluster_buf[i * n + j]);
-                    }
+            for (int i = 0; i < 2 * m; ++i) {
+                if (from_cluster_buf[i].from_v != -1) {
+                    edges_to_add.push_back(from_cluster_buf[i]);
                 }
             }
 
@@ -366,8 +379,6 @@ namespace MSTSolver {
             std::fill(heaviest_edges.begin(), heaviest_edges.end(), false);
             // init bool arr with size n called encountered_clusters
             bool encountered_clusters[n] = {false};
-
-            std::cout << "edges_to_add.size(): " << edges_to_add.size() << std::endl;
 
             for (int i = edges_to_add.size() - 1; i >= 0; --i) {
                 ClusterEdge edge = edges_to_add[i];
@@ -421,8 +432,6 @@ namespace MSTSolver {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_cpu - start_cpu);
 
             cpu_time += duration.count();
-            std::cout << "num_clusters: " << num_clusters << std::endl;
-
 
             if (k >= 10) {
                 throw std::runtime_error("k >= 10");
@@ -437,8 +446,7 @@ namespace MSTSolver {
         CHECK(cudaFree(cluster_idsGPU));
         CHECK(cudaFree(to_cluster_bufGPU));
         CHECK(cudaFree(from_cluster_bufGPU));
-        CHECK(cudaFree(sizesGPU));
-        CHECK(cudaFree(prefix_sum_sizesGPU));
+        CHECK(cudaFree(v_indicesGPU));
         CHECK(cudaFree(min_edges_bufGPU));
         CHECK(cudaFree(min_edges_stack_bufGPU));
 
@@ -468,6 +476,7 @@ namespace MSTSolver {
                 }
             }
             mstSet[u] = true;
+ 
             for (int v = 0; v < n; v++) {
                 if (!mstSet[v] && vertices[u * n + v] < key[v]) {
                     parent[v] = u;
@@ -479,7 +488,7 @@ namespace MSTSolver {
         return parent;
     }
 
-    float algo_prim_sparse(const SparseGraph graph, int* prefixsum_sizes) {
+    std::vector<int> algo_prim_sparse(const SparseGraph graph) {
         int n = graph.n;
         std::vector<int> parent(n, -1);
 
@@ -490,8 +499,6 @@ namespace MSTSolver {
         std::vector<SparseGraphEdge> key(n, placeHolder);
         std::vector<bool> mstSet(n, false);
         
-        float sum = 0.0;
-
         SparseGraphEdge initialEdge;
         initialEdge.to_v = 0;
         initialEdge.weight = 0;
@@ -508,15 +515,10 @@ namespace MSTSolver {
             }
 
             mstSet[u] = true;
-            sum += min_key;
-            for (int v = 0; v < graph.sizes[u]; v++) {
-                int u_edge_start;
 
-                if (u == 0) {
-                    u_edge_start = 0;
-                } else {
-                    u_edge_start = prefixsum_sizes[u - 1];
-                }
+            int v_edge_size = graph.v_indices[u + 1] - graph.v_indices[u];
+            for (int v = 0; v < v_edge_size; v++) {
+                int u_edge_start = graph.v_indices[u];
 
                 int v_vertex = graph.edges[u_edge_start + v].to_v;
                 if (!mstSet[v_vertex] && graph.edges[u_edge_start + v].weight < key[v_vertex].weight) {
@@ -526,7 +528,7 @@ namespace MSTSolver {
             }
         }
 
-        return sum;
+        return parent;
     }
 }
 

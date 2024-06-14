@@ -1,10 +1,16 @@
 #!/bin/bash
 
-n=8192
+module load gcc/11.3.0 cuda/11.7.0
+make
+
+n=65536
 thread_max=1024
+file_dir="strong_scale_sparse_${n}_20"
+
+mkdir $file_dir
 
 # Array to store the values: 1, 2, 4, 8, ..., 8192
-values=(1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192)
+values=(1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536)
 
 # Loop through the array values
 for val in "${values[@]}"; do
@@ -19,7 +25,7 @@ for val in "${values[@]}"; do
     fi
 
     # Create a new job script for each value
-    cat << EOF > strong_scale/job_${n}_${val}.sh
+    cat << EOF > ${file_dir}/job_${n}_${val}.sh
 #!/bin/bash
 #SBATCH --job-name=mpiTest
 #SBATCH --account=project_2009665
@@ -29,7 +35,7 @@ for val in "${values[@]}"; do
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16000
 #SBATCH --gres=gpu:v100:1
-#SBATCH --output=strong_scale/result/%j_${n}_${val}.txt
+#SBATCH --output=${file_dir}/result/%j_${n}_${val}.txt
 
 module load gcc/11.3.0 cuda/11.7.0
 
@@ -37,5 +43,5 @@ time srun nvprof ./main $n_block $n_thread $n $val
 EOF
 
     # Submit the job script
-    sbatch strong_scale/job_${n}_${val}.sh
+    sbatch ${file_dir}/job_${n}_${val}.sh
 done

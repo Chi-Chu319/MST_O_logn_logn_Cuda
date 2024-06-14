@@ -1,6 +1,7 @@
 #include <iostream>
 #include "algo.cuh"
 #include <vector>
+#include <queue>
 
 float* generate_clique_graph(int n) {
     srand(time(0)); 
@@ -46,7 +47,6 @@ SparseGraph generate_sparse_graph(int n, int m) {
  
     int j = 0;
 
- 
     for (int i = 0; i < n - 2; i++) {
         for (j = 0; j < n; j++) {
             if (vertex_set[j] == 0) {
@@ -77,8 +77,8 @@ SparseGraph generate_sparse_graph(int n, int m) {
     // Add the rest of the edges 
     int edgeCount = 0;
     while (edgeCount < m - (n - 1)) {
-        int u = rand() % n;
-        int v = rand() % n;
+        int u = distr(gen);
+        int v = distr(gen);
 
         if (u != v && builder.adjList[u].find(v) == builder.adjList[u].end()) {
             builder.addEdge(u, v, (float)rand() / RAND_MAX);

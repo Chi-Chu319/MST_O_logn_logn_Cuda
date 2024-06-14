@@ -1,0 +1,5 @@
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** JOB 22022138 ON r18g03 CANCELLED AT 2024-06-13T14:10:40 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 22022138.0 ON r18g03 CANCELLED AT 2024-06-13T14:10:40 DUE TO TIME LIMIT ***
+srun: error: r18g03: task 0: Terminated
+srun: Terminating StepId=22022138.0

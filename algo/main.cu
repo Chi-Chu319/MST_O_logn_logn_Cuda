@@ -5,6 +5,7 @@
 #include <float.h>
 #include <iostream>
 #include <cstdlib> // For atoi()
+#include <algorithm>
 
 int main(int argc, char* argv[]) {
     if (argc < 5) {
@@ -17,22 +18,16 @@ int main(int argc, char* argv[]) {
     const int n = std::atoi(argv[3]);
     int num_vertex_local = std::atoi(argv[4]);
 
+    /*
+    ------------------------------------------------Sparse------------------------------------------------
+    */
 
-    // printf("generating graph-1 \n");
+    // int factor = 20;
 
-    SparseGraph graph = generate_sparse_graph(n, 10 * n);
-
-
-    int* prefixsum_sizes = new int[n];
-    prefixsum_sizes[0] = graph.sizes[0];
-    for (int i = 1; i < n; ++i) {
-        prefixsum_sizes[i] = prefixsum_sizes[i - 1] + graph.sizes[i];
-    }
-
-    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertex_local);
-    float prim_weights = MSTSolver::algo_prim_sparse(graph, prefixsum_sizes);
-
-    // float* vertices = generate_clique_graph(n);
+    // // make sure the number of edges is larger than the max number of vertices
+    // int m = factor * n;
+    // // print m
+    // SparseGraph graph = generate_sparse_graph(n, m);
 
     // // start timer
     // cudaEvent_t start, stop;
@@ -40,8 +35,12 @@ int main(int argc, char* argv[]) {
     // cudaEventCreate(&stop);
     // cudaEventRecord(start);
 
-    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
-    // std::vector<int> prim_parents = MSTSolver::algo_prim(vertices, n);
+    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertex_local);
+    // // sort the edges by from_v
+    // // std::sort(cuda_result.begin(), cuda_result.end(), [](const ClusterEdge& a, const ClusterEdge& b) {
+    // //     return a.weight < b.weight;
+    // // });
+    // // std::vector<int> parent = MSTSolver::algo_prim_sparse(graph);
 
     // // end timer
     // cudaEventRecord(stop);
@@ -50,17 +49,70 @@ int main(int argc, char* argv[]) {
     // cudaEventElapsedTime(&milliseconds, start, stop);
     // printf("Time: %f\n", milliseconds);
 
-    float cuda_weights = 0;
-    for (int i = 0; i < cuda_result.size(); i++) {
-        cuda_weights += cuda_result[i].weight;
-    }
+    /*
+    ------------------------------------------------Clique------------------------------------------------
+    */
 
-    // float prim_weights = 0;
+    float* vertices = generate_clique_graph(n);
+
+    // start timer
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
+    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
+    // std::vector<int> parent = MSTSolver::algo_prim(vertices, n);
+
+    // end timer
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    printf("Time: %f\n", milliseconds);
+
+
+    /*
+    ------------------------------------------------Test the correctness of the result------------------------------------------------
+    */
+
+
+    // fully-connected 
+    // double prim_weights = 0;
     // for (int i = 1; i < n; i++) {
-    //     prim_weights += graph.edges[i * n + prim_parents[i]].weight;
+    //     prim_weights += vertices[i * n + parent[i]];
     // }
 
-    printf("CUDA: %f\n", cuda_weights);
-    printf("Prim: %f\n", prim_weights);
-}
+    // // sparse
+    // std::vector<ClusterEdge> prims_result(0);
+    // for (int i = 1; i < n; i++) {
+    //     // from i to parent[i]
+    //     int i_start = graph.v_indices[i];
+    //     int i_end = graph.v_indices[i + 1];
 
+    //     // loop from i_start to i_end
+    //     for (int j = i_start; j < i_end; j++) {
+    //         if (graph.edges[j].to_v == parent[i]) {
+    //             prims_result.push_back(ClusterEdge(i, parent[i], graph.edges[j].weight));
+    //             break;
+    //         }
+    //     }
+    // }
+
+    // std::sort(prims_result.begin(), prims_result.end(), [](const ClusterEdge& a, const ClusterEdge& b) {
+    //     return a.weight < b.weight;
+    // });
+
+    // float cuda_weight = 0;
+    // for (int i = 0; i < cuda_result.size(); i++) {
+    //     cuda_weight += cuda_result[i].weight;
+    // }
+
+    // float prims_weight = 0;
+    // for (int i = 0; i < prims_result.size(); i++) {
+    //     prims_weight += prims_result[i].weight;
+    // }
+
+    // printf("CUDA: %f\n", cuda_weight);
+    // printf("Prim: %f\n", prims_weight);
+}

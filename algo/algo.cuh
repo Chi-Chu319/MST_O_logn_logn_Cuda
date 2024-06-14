@@ -5,6 +5,7 @@
 #include <set>
 #include <random>
 #include <iostream>
+#include <cassert>
 
 struct ClusterEdge {
     int from_v;    // Starting vertex of an edge
@@ -22,7 +23,8 @@ struct SparseGraphEdge {
 
 struct SparseGraph {
     SparseGraphEdge* edges;
-    int* sizes;
+    // start indices of the edges for each vertex. The size of this array is n + 1 first element is 0, last is m
+    int* v_indices;
     int n;
     int m;
 };
@@ -59,22 +61,23 @@ public:
     SparseGraph toSparseGraph () {
         SparseGraph graph;
         graph.edges = new SparseGraphEdge[edge_count * 2];
-        graph.sizes = new int[V];
+        graph.v_indices = new int[V + 1];
         graph.n = V;
         graph.m = edge_count;
-
+        graph.v_indices[0] = 0;
 
         int edge_idx = 0;
         for (int i = 0; i < V; ++i) {
             std::vector<SparseGraphEdge> edges = weights[i];
-            graph.sizes[i] = edges.size();
+            graph.v_indices[i + 1] = graph.v_indices[i] + edges.size();
 
             for (int j = 0; j < edges.size(); ++j) {
                 graph.edges[edge_idx] = edges[j];
-
                 edge_idx++;
             }
         }
+
+        assert(graph.v_indices[V] == graph.m * 2);
 
         return graph;
     }
@@ -87,8 +90,19 @@ __device__ int get_cluster_machine(int num_vertex_local, int v);
 __global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, ClusterEdge* min_edges_buf, const float* vertices, int* cluster_ids, const  int n, int num_vertices_local);
 __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, ClusterEdge* min_edges_bufGPU, int* min_edges_stack_bufGPU, int* cluster_ids, int* cluster_sizes, const int n, int num_vertices_local);
 
-__global__ void min_to_cluster_kernel_sparse(ClusterEdge* to_cluster_buf, ClusterEdge* min_edges_buf, SparseGraphEdge* edges, int* sizes, int* prefix_sum_sizes, int* cluster_ids, const int n, int num_vertices_local);
-__global__ void min_from_cluster_kernel_sparse(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, ClusterEdge* min_edges_bufGPU, int* min_edges_stack_bufGPU, int* sizes, int* prefix_sum_sizes, int* cluster_ids, int* cluster_sizes, const int n, int num_vertices_local);
+__global__ void min_to_cluster_kernel_sparse(ClusterEdge* to_cluster_buf, ClusterEdge* min_edges_buf, SparseGraphEdge* edges, int* v_indices, int* cluster_ids, const int n, int num_vertices_local);
+__global__ void min_from_cluster_kernel_sparse(
+    const ClusterEdge* to_cluster_buf,
+    ClusterEdge* from_cluster_buf,
+    ClusterEdge* min_edges_bufGPU,
+    int* min_edges_stack_bufGPU,
+    int* v_indices,
+    int* cluster_leader_sizesGPU,
+    int* cluster_ids,
+    int* cluster_sizes,
+    const int n,
+    int num_vertices_local
+);
 
 __global__ void speedup_kernel(const float* vertices, ClusterEdge* from_cluster_buf, const int n, int num_vertices_local);
 
@@ -100,7 +114,7 @@ namespace MSTSolver {
     std::vector<ClusterEdge> algo_cuda(const float* vertices, const int n, int n_block, int n_thread, int num_vertex_local);
     std::vector<ClusterEdge> algo_cuda_sparse(const SparseGraph graph, int n_block, int n_thread, int num_vertices_local);
     std::vector<int> algo_prim(const float* vertices, const int n);
-    float algo_prim_sparse(const SparseGraph graph, int* prefixsum_sizes);
+    std::vector<int> algo_prim_sparse(const SparseGraph graph);
 }
 
 #endif // ALGO_H

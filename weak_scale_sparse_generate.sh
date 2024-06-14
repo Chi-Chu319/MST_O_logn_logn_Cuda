@@ -3,14 +3,15 @@
 module load gcc/11.3.0 cuda/11.7.0
 make
 
-n=65536
+n=8192
 thread_max=1024
-file_dir="weak_scale_sparse_20"
+file_dir="weak_scale_sparse_${n}_20"
 
 mkdir $file_dir
 
 # Array to store the values: 1, 2, 4, 8, ..., 8192
-values=(1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536)
+values=(1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192)
+# values=(1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536)
 # values=(32768 34816 36864 38912 40960 43008 45056 47104 49152 51200 53248 55296 57344 59392 61440 63488 65536)
 
 # Loop through the array values

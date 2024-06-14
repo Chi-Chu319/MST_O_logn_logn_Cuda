@@ -22,38 +22,12 @@ int main(int argc, char* argv[]) {
     ------------------------------------------------Sparse------------------------------------------------
     */
 
-    // int factor = 20;
+    int factor = 20;
 
-    // // make sure the number of edges is larger than the max number of vertices
-    // int m = factor * n;
-    // // print m
-    // SparseGraph graph = generate_sparse_graph(n, m);
-
-    // // start timer
-    // cudaEvent_t start, stop;
-    // cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-    // cudaEventRecord(start);
-
-    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertex_local);
-    // // sort the edges by from_v
-    // // std::sort(cuda_result.begin(), cuda_result.end(), [](const ClusterEdge& a, const ClusterEdge& b) {
-    // //     return a.weight < b.weight;
-    // // });
-    // // std::vector<int> parent = MSTSolver::algo_prim_sparse(graph);
-
-    // // end timer
-    // cudaEventRecord(stop);
-    // cudaEventSynchronize(stop);
-    // float milliseconds = 0;
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Time: %f\n", milliseconds);
-
-    /*
-    ------------------------------------------------Clique------------------------------------------------
-    */
-
-    float* vertices = generate_clique_graph(n);
+    // make sure the number of edges is larger than the max number of vertices
+    int m = factor * n;
+    // print m
+    SparseGraph graph = generate_sparse_graph(n, m);
 
     // start timer
     cudaEvent_t start, stop;
@@ -61,8 +35,12 @@ int main(int argc, char* argv[]) {
     cudaEventCreate(&stop);
     cudaEventRecord(start);
 
-    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
-    // std::vector<int> parent = MSTSolver::algo_prim(vertices, n);
+    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertex_local);
+    // sort the edges by from_v
+    // std::sort(cuda_result.begin(), cuda_result.end(), [](const ClusterEdge& a, const ClusterEdge& b) {
+    //     return a.weight < b.weight;
+    // });
+    // std::vector<int> parent = MSTSolver::algo_prim_sparse(graph);
 
     // end timer
     cudaEventRecord(stop);
@@ -70,6 +48,28 @@ int main(int argc, char* argv[]) {
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     printf("Time: %f\n", milliseconds);
+
+    /*
+    ------------------------------------------------Clique------------------------------------------------
+    */
+
+    // float* vertices = generate_clique_graph(n);
+
+    // // start timer
+    // cudaEvent_t start, stop;
+    // cudaEventCreate(&start);
+    // cudaEventCreate(&stop);
+    // cudaEventRecord(start);
+
+    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
+    // // std::vector<int> parent = MSTSolver::algo_prim(vertices, n);
+
+    // // end timer
+    // cudaEventRecord(stop);
+    // cudaEventSynchronize(stop);
+    // float milliseconds = 0;
+    // cudaEventElapsedTime(&milliseconds, start, stop);
+    // printf("Time: %f\n", milliseconds);
 
 
     /*

@@ -1,9 +1,0 @@
-==2681869== NVPROF is profiling process 2681869, command: ./main 48 1024 49152 1
-srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
-slurmstepd: error: *** JOB 22037591 ON r18g06 CANCELLED AT 2024-06-13T23:51:45 ***
-slurmstepd: error: *** STEP 22037591.0 ON r18g06 CANCELLED AT 2024-06-13T23:51:45 ***
-==2681869== Profiling application: ./main 48 1024 49152 1
-==2681869== Profiling result:
-No kernels were profiled.
-No API activities were profiled.
-==2681869== Warning: Some profiling data are not recorded.

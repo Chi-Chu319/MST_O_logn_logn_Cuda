@@ -4,7 +4,7 @@
 #include "algo.cuh"
 #include <float.h>
 #include <iostream>
-#include <cstdlib> // For atoi()
+#include <cstdlib>
 #include <algorithm>
 
 int main(int argc, char* argv[]) {
@@ -23,7 +23,6 @@ int main(int argc, char* argv[]) {
     */
 
     int factor = 20;
-
     // make sure the number of edges is larger than the max number of vertices
     int m = factor * n;
     // print m

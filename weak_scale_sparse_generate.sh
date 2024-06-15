@@ -5,7 +5,7 @@ make
 
 n=8192
 thread_max=1024
-file_dir="weak_scale_sparse_${n}_20"
+file_dir="weak_scale_sparse_20"
 
 mkdir $file_dir
 

@@ -11,4 +11,4 @@
 
 module load gcc/11.3.0 cuda/11.7.0
 
-time srun nvprof ./main 48 1024 49152 1
+time srun nvprof --csv --log-file test.csv ./main 8 1024 8192 1

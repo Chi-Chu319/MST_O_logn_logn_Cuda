@@ -1,0 +1,6 @@
+==1934481== NVPROF is profiling process 1934481, command: ./main 1 2 32768 16384
+slurmstepd: error: *** JOB 22056610 ON r04g03 CANCELLED AT 2024-06-16T03:04:03 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** STEP 22056610.0 ON r04g03 CANCELLED AT 2024-06-16T03:04:03 DUE TO TIME LIMIT ***
+srun: error: r04g03: task 0: Terminated
+srun: Terminating StepId=22056610.0

@@ -1,0 +1,11 @@
+==218541== NVPROF is profiling process 218541, command: ./main 1 2 65536 32768
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** JOB 22056658 ON r02g06 CANCELLED AT 2024-06-16T03:05:33 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 22056658.0 ON r02g06 CANCELLED AT 2024-06-16T03:05:33 DUE TO TIME LIMIT ***
+==218541== Profiling application: ./main 1 2 65536 32768
+==218541== Profiling result:
+No kernels were profiled.
+No API activities were profiled.
+==218541== Warning: Some profiling data are not recorded.
+srun: error: r02g06: task 0: Terminated
+srun: Terminating StepId=22056658.0

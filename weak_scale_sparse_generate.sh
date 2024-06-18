@@ -1,6 +1,5 @@
 #!/bin/bash
 
-module load gcc/11.3.0 cuda/11.7.0
 make
 
 n=8192

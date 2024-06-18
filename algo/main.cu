@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     ------------------------------------------------Sparse------------------------------------------------
     */
 
-    int factor = 20;
+    int factor = 10;
     // make sure the number of edges is larger than the max number of vertices
     int m = factor * n;
     // print m

@@ -1,0 +1,34 @@
+==635077== NVPROF is profiling process 635077, command: ./main 16 1024 16384 1
+CPU time: 22
+Time: 960.656555
+==635077== Profiling application: ./main 16 1024 16384 1
+==635077== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   98.77%  900.98ms         3  300.33ms  161.04ms  416.87ms  min_from_cluster_kernel_sparse(ClusterEdge const *, ClusterEdge*, ClusterEdge*, int*, int*, int*, int*, int*, int, int)
+                    0.71%  6.4479ms         3  2.1493ms  1.7783ms  2.4428ms  min_to_cluster_kernel_sparse(ClusterEdge*, ClusterEdge*, SparseGraphEdge*, int*, int*, int, int)
+                    0.39%  3.5510ms         3  1.1837ms  1.0768ms  1.2900ms  [CUDA memcpy DtoH]
+                    0.12%  1.0947ms        13  84.206us  7.4240us  995.23us  [CUDA memcpy HtoD]
+                    0.02%  162.69us        15  10.845us  5.3430us  16.320us  [CUDA memset]
+      API calls:   82.43%  907.46ms         3  302.49ms  163.27ms  418.66ms  cudaDeviceSynchronize
+                   16.78%  184.77ms         2  92.387ms     893ns  184.77ms  cudaEventCreate
+                    0.54%  5.9369ms        16  371.06us  29.492us  1.5449ms  cudaMemcpy
+                    0.09%  994.86us         9  110.54us  3.1560us  218.07us  cudaMalloc
+                    0.07%  789.15us        15  52.609us  3.5540us  697.16us  cudaMemset
+                    0.05%  590.13us         7  84.304us  3.5720us  212.90us  cudaFree
+                    0.02%  265.75us       101  2.6310us     133ns  116.67us  cuDeviceGetAttribute
+                    0.00%  54.646us         6  9.1070us  4.4390us  22.984us  cudaLaunchKernel
+                    0.00%  29.779us         2  14.889us  10.774us  19.005us  cudaEventRecord
+                    0.00%  12.810us         1  12.810us  12.810us  12.810us  cudaEventSynchronize
+                    0.00%  10.824us         1  10.824us  10.824us  10.824us  cuDeviceGetName
+                    0.00%  5.4700us         1  5.4700us  5.4700us  5.4700us  cuDeviceGetPCIBusId
+                    0.00%  4.9940us         1  4.9940us  4.9940us  4.9940us  cudaEventElapsedTime
+                    0.00%  2.4000us         1  2.4000us  2.4000us  2.4000us  cuDeviceTotalMem
+                    0.00%  2.1630us         6     360ns     128ns  1.3220us  cudaGetLastError
+                    0.00%  1.6240us         3     541ns     195ns  1.1700us  cuDeviceGetCount
+                    0.00%     613ns         2     306ns     132ns     481ns  cuDeviceGet
+                    0.00%     330ns         1     330ns     330ns     330ns  cuDeviceGetUuid
+                    0.00%     328ns         1     328ns     328ns     328ns  cuModuleGetLoadingMode
+
+real	0m4.474s
+user	0m0.011s
+sys	0m0.007s

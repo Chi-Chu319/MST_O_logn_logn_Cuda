@@ -4,7 +4,7 @@ make
 
 n=8192
 thread_max=1024
-file_dir="strong_scale_sparse_${n}_40"
+file_dir="strong_scale_sparse_${n}_8191"
 
 mkdir $file_dir
 

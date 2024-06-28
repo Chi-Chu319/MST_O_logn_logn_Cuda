@@ -22,11 +22,12 @@ int main(int argc, char* argv[]) {
     ------------------------------------------------Sparse------------------------------------------------
     */
 
-    int factor = 40;
+    // int factor = 40;
     // make sure the number of edges is larger than the max number of vertices
-    int m = factor * n;
+    // int m = factor * n;
     // print m
-    SparseGraph graph = generate_sparse_graph(n, m);
+    SparseGraph graph = generate_clique_sparse_graph(n);
+    printf("graph.m: %d\n", graph.m);
 
     // start timer
     cudaEvent_t start, stop;

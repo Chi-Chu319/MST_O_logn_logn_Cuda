@@ -22,7 +22,22 @@ float* generate_clique_graph(int n) {
     return vertices;
 }
 
+SparseGraph generate_clique_sparse_graph(int n) {
+    srand(time(0)); 
+    SparseGraphBuilder builder(n);
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            builder.addEdge(i, j, (float)rand() / RAND_MAX);
+        }
+    }
+
+    return builder.toSparseGraph();
+}
+
 SparseGraph generate_sparse_graph(int n, int m) {
+    srand(time(0)); 
+
     SparseGraphBuilder builder(n);
 
     // Construct the tree

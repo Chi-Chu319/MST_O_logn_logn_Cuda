@@ -1,0 +1,4 @@
+==1561459== NVPROF is profiling process 1561459, command: ./main 1 16 8192 512
+slurmstepd: error: *** JOB 22173443 ON r04g04 CANCELLED AT 2024-06-27T18:12:18 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** STEP 22173443.0 ON r04g04 CANCELLED AT 2024-06-27T18:12:18 DUE TO TIME LIMIT ***

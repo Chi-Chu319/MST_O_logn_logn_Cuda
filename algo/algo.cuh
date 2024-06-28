@@ -109,6 +109,7 @@ __global__ void speedup_kernel(const float* vertices, ClusterEdge* from_cluster_
 
 float* generate_clique_graph(int n);
 SparseGraph generate_sparse_graph(int n, int m);
+SparseGraph generate_clique_sparse_graph(int n);
 
 namespace MSTSolver {
     std::vector<ClusterEdge> algo_cuda(const float* vertices, const int n, int n_block, int n_thread, int num_vertex_local);

@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16000
 #SBATCH --gres=gpu:v100:1
-#SBATCH --output=%j_8192_1.txt
+#SBATCH --output=strong_scale_sparse_8192_8191/result/%j_8192_1.txt
 
 module load gcc/11.3.0 cuda/11.7.0
 

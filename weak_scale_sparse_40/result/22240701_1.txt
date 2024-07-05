@@ -1,0 +1,9 @@
+terminate called after throwing an instance of 'std::length_error'
+  what():  cannot create std::vector larger than max_size()
+======== Error: Application received signal 6
+srun: error: r02g03: task 0: Exited with exit code 15
+srun: Terminating StepId=22240701.0
+
+real	0m0.648s
+user	0m0.010s
+sys	0m0.007s

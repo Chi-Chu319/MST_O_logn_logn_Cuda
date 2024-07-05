@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     ------------------------------------------------Sparse------------------------------------------------
     */
 
-    int factor = 80;
+    int factor = 40;
     // make sure the number of edges is larger than the max number of vertices
     int m = factor * n;
     SparseGraph graph = generate_sparse_graph(n, m);

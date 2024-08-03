@@ -1,0 +1,5 @@
+slurmstepd: error: *** STEP 22240664.0 ON r04g05 CANCELLED AT 2024-07-05T15:07:32 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** JOB 22240664 ON r04g05 CANCELLED AT 2024-07-05T15:07:32 DUE TO TIME LIMIT ***
+srun: error: r04g05: task 0: Terminated
+srun: Terminating StepId=22240664.0

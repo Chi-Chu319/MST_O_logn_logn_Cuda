@@ -11,4 +11,5 @@
 
 module load gcc/11.3.0 cuda/11.7.0
 
-time srun nvprof ./main 8 1024 8192 1
+# time srun nvprof ./main 8 1024 8192 1
+time srun compute-sanitizer ./main 8 1024 8192 1

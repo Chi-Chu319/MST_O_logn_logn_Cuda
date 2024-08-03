@@ -1,0 +1,11 @@
+========= COMPUTE-SANITIZER
+========= Error: process didn't terminate successfully
+=========     The application may have hit an error when dereferencing Unified Memory from the host. Please rerun the application under cuda-gdb or a host debugger to catch host side errors.
+========= Target application returned an error
+========= ERROR SUMMARY: 0 errors
+srun: error: r18g07: task 0: Exited with exit code 11
+srun: Terminating StepId=22554076.0
+
+real	0m38.358s
+user	0m0.011s
+sys	0m0.006s

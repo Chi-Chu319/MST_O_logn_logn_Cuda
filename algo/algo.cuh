@@ -94,12 +94,14 @@ __global__ void min_to_cluster_kernel_sparse(ClusterEdge* to_cluster_buf, Cluste
 __global__ void min_from_cluster_kernel_sparse(
     const ClusterEdge* to_cluster_buf,
     ClusterEdge* from_cluster_buf,
-    ClusterEdge* min_edges_bufGPU,
-    int* min_edges_stack_bufGPU,
+    ClusterEdge* min_edges_buf,
+    int* min_edges_stack_buf,
     int* v_indices,
-    int* cluster_leader_sizesGPU,
+    int* cluster_leader_sizes,
     int* cluster_ids,
     int* cluster_sizes,
+    int* prefix_sum_cluster_sizes,
+    int* cluster_members,
     const int n,
     int num_vertices_local
 );

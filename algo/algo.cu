@@ -34,7 +34,7 @@ bool get_cluster_finished(int* cluster_ids, bool* cluster_finished, int v) {
 void get_prefix_sum(int* array, int* result, int n) {
     result[0] = 0;
     for (int i = 1; i < n; ++i) {
-        result[i] += array[i - 1];
+        result[i] = array[i - 1] + result[i - 1];
     }
 }
 
@@ -49,12 +49,10 @@ void compute_cluster_leader_sizes(int* cluster_leader_sizes, int* cluster_ids, i
         cluster_leader_sizes[leader + 1] += (v_indices[i + 1] - v_indices[i]);
     }
 
-    get_prefix_sum(cluster_leader_sizes, cluster_leader_sizes, n + 1);
-
-    // // compute prefix sum of cluster_leader_sizes
-    // for (int i = 1; i < n + 1; ++i) {
-    //     cluster_leader_sizes[i] += cluster_leader_sizes[i - 1];
-    // }
+    // compute prefix sum of cluster_leader_sizes
+    for (int i = 1; i < n + 1; ++i) {
+        cluster_leader_sizes[i] += cluster_leader_sizes[i - 1];
+    }
 }
 
 bool cluster_safe_union(int* cluster_ids, int* cluster_sizes, int p, int q) {
@@ -311,11 +309,9 @@ namespace MSTSolver {
         
         int* cluster_membersGPU = NULL;
         CHECK(cudaMalloc((void**)&cluster_membersGPU, (n) * sizeof(int)));
-        CHECK(cudaMemcpy(cluster_membersGPU, cluster_members, (n) * sizeof(int), cudaMemcpyHostToDevice));
 
         int* prefix_sum_cluster_sizesGPU = NULL;
         CHECK(cudaMalloc((void**)&prefix_sum_cluster_sizesGPU, (n + 1) * sizeof(int)));
-        CHECK(cudaMemcpy(prefix_sum_cluster_sizesGPU, prefix_sum_cluster_sizes, (n + 1) * sizeof(int), cudaMemcpyHostToDevice));
 
         ClusterEdge* min_edges_bufGPU = NULL;
         CHECK(cudaMalloc((void**)&min_edges_bufGPU, 2 * m * sizeof(ClusterEdge)));
@@ -347,6 +343,9 @@ namespace MSTSolver {
             CHECK(cudaMemcpy(cluster_idsGPU, cluster_ids, n * sizeof(int), cudaMemcpyHostToDevice));
             CHECK(cudaMemcpy(cluster_sizesGPU, cluster_sizes, n * sizeof(int), cudaMemcpyHostToDevice));
             CHECK(cudaMemcpy(cluster_leader_sizesGPU, cluster_leader_sizes, (n + 1) * sizeof(int), cudaMemcpyHostToDevice));
+            CHECK(cudaMemcpy(cluster_membersGPU, cluster_members, (n) * sizeof(int), cudaMemcpyHostToDevice));
+            CHECK(cudaMemcpy(prefix_sum_cluster_sizesGPU, prefix_sum_cluster_sizes, (n + 1) * sizeof(int), cudaMemcpyHostToDevice));
+
 
             if (k == 100) {
                 // speedup_kernel<<<n_block, n_thread>>>(verticesGPU, from_cluster_bufGPU, n, num_vertices_local);
@@ -456,13 +455,13 @@ namespace MSTSolver {
 
             get_prefix_sum(cluster_sizes, prefix_sum_cluster_sizes, n + 1);
             
-            printf("prefix_sum_cluster_sizes[n]: %d\n", prefix_sum_cluster_sizes[n]);
-
             for (int vertex = 0; vertex < n; ++vertex) {
                 int cluster_id = get_cluster_leader_host(cluster_ids, vertex);
                 cluster_members[prefix_sum_cluster_sizes[cluster_id]] = vertex;
                 prefix_sum_cluster_sizes[cluster_id]++;
             }
+
+            get_prefix_sum(cluster_sizes, prefix_sum_cluster_sizes, n + 1);
 
             // end timer
             auto end_cpu = std::chrono::high_resolution_clock::now();
@@ -472,7 +471,8 @@ namespace MSTSolver {
             cpu_time += duration.count();
 
             if (k >= 10) {
-                throw std::runtime_error("k >= 10");
+                // throw std::runtime_error("k >= 10");
+                return mst_edges;
             }
 
             if (num_clusters == 1) {
@@ -496,7 +496,6 @@ namespace MSTSolver {
         delete[] prefix_sum_cluster_sizes;
         delete[] cluster_members;
         
-
         // print cpu time
         std::cout << "CPU time: " << cpu_time << std::endl;
 

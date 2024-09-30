@@ -86,7 +86,7 @@ private:
 
 };
 
-__device__ int get_cluster_machine(int num_vertex_local, int v);
+__device__ int get_cluster_machine(int num_vertices_local, int v);
 __global__ void min_to_cluster_kernel(ClusterEdge* to_cluster_buf, ClusterEdge* min_edges_buf, const float* vertices, int* cluster_ids, const  int n, int num_vertices_local);
 __global__ void min_from_cluster_kernel(const ClusterEdge* to_cluster_buf, ClusterEdge* from_cluster_buf, ClusterEdge* min_edges_bufGPU, int* min_edges_stack_bufGPU, int* cluster_ids, int* cluster_sizes, const int n, int num_vertices_local);
 
@@ -114,7 +114,7 @@ SparseGraph generate_sparse_graph(int n, int m);
 SparseGraph generate_clique_sparse_graph(int n);
 
 namespace MSTSolver {
-    std::vector<ClusterEdge> algo_cuda(const float* vertices, const int n, int n_block, int n_thread, int num_vertex_local);
+    std::vector<ClusterEdge> algo_cuda(const float* vertices, const int n, int n_block, int n_thread, int num_vertices_local);
     std::vector<ClusterEdge> algo_cuda_sparse(const SparseGraph graph, int n_block, int n_thread, int num_vertices_local);
     std::vector<int> algo_prim(const float* vertices, const int n);
     std::vector<int> algo_prim_sparse(const SparseGraph graph);

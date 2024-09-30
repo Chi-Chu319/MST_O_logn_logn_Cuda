@@ -15,8 +15,8 @@ __device__ int get_cluster_leader(int* cluster_ids, int v) {
     return leader;
 }
 
-__device__ int get_cluster_machine(int num_vertex_local, int v) {
-    return v / num_vertex_local;
+__device__ int get_cluster_machine(int num_vertices_local, int v) {
+    return v / num_vertices_local;
 }
 
 __device__ void swap(ClusterEdge* a, ClusterEdge* b) {

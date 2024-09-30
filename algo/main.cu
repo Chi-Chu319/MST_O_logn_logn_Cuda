@@ -16,13 +16,13 @@ int main(int argc, char* argv[]) {
     int n_block = std::atoi(argv[1]);
     int n_thread = std::atoi(argv[2]);
     const int n = std::atoi(argv[3]);
-    int num_vertex_local = std::atoi(argv[4]);
+    int num_vertices_local = std::atoi(argv[4]);
 
     /*
     ------------------------------------------------Sparse------------------------------------------------
     */
 
-    int factor = 10;
+    int factor = 300;
     // make sure the number of edges is larger than the max number of vertices
     int m = factor * n;
     SparseGraph graph = generate_sparse_graph(n, m);
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     cudaEventCreate(&stop);
     cudaEventRecord(start);
 
-    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertex_local);
+    std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda_sparse(graph, n_block, n_thread, num_vertices_local);
     // sort the edges by from_v
     // std::sort(cuda_result.begin(), cuda_result.end(), [](const ClusterEdge& a, const ClusterEdge& b) {
     //     return a.weight < b.weight;
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
     // cudaEventCreate(&stop);
     // cudaEventRecord(start);
 
-    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertex_local);
+    // std::vector<ClusterEdge> cuda_result = MSTSolver::algo_cuda(vertices, n, n_block, n_thread, num_vertices_local);
     // // std::vector<int> parent = MSTSolver::algo_prim(vertices, n);
 
     // // end timer
@@ -76,9 +76,9 @@ int main(int argc, char* argv[]) {
 
 
     // fully-connected 
-    // double prim_weights = 0;
+    // double prims_weight = 0;
     // for (int i = 1; i < n; i++) {
-    //     prim_weights += vertices[i * n + parent[i]];
+    //     prims_weight += vertices[i * n + parent[i]];
     // }
 
     // // sparse

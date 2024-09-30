@@ -15,8 +15,8 @@ __device__ int get_cluster_leader(int* cluster_ids, int v) {
     return leader;
 }
 
-__device__ int get_cluster_machine(int num_vertex_local, int v) {
-    return v / num_vertex_local;
+__device__ int get_cluster_machine(int num_vertices_local, int v) {
+    return v / num_vertices_local;
 }
 
 __device__ void swap(ClusterEdge* a, ClusterEdge* b) {
@@ -267,12 +267,14 @@ __global__ void min_to_cluster_kernel_sparse(ClusterEdge* to_cluster_buf, Cluste
 __global__ void min_from_cluster_kernel_sparse(
     const ClusterEdge* to_cluster_buf,
     ClusterEdge* from_cluster_buf,
-    ClusterEdge* min_edges_bufGPU,
-    int* min_edges_stack_bufGPU,
+    ClusterEdge* min_edges_buf,
+    int* min_edges_stack_buf,
     int* v_indices,
-    int* cluster_leader_sizesGPU,
+    int* cluster_leader_sizes,
     int* cluster_ids,
     int* cluster_sizes,
+    int* prefix_sum_cluster_sizes,
+    int* cluster_members,
     const int n,
     int num_vertices_local
 ) {
@@ -285,42 +287,36 @@ __global__ void min_from_cluster_kernel_sparse(
             continue;
         }
 
-        ClusterEdge* cluster_edges = min_edges_bufGPU + cluster_leader_sizesGPU[to_v];
-        int* stack = min_edges_stack_bufGPU + cluster_leader_sizesGPU[to_v];
+        ClusterEdge* cluster_edges = min_edges_buf + cluster_leader_sizes[to_v];
+        int* stack = min_edges_stack_buf + cluster_leader_sizes[to_v];
 
-        for (int k = 0; k < cluster_leader_sizesGPU[to_v + 1] - cluster_leader_sizesGPU[to_v]; ++k) {
+        for (int k = 0; k < cluster_leader_sizes[to_v + 1] - cluster_leader_sizes[to_v]; ++k) {
             cluster_edges[k] = ClusterEdge();
         }
 
         int edge_count = 0;
 
-        for (int from_v = 0; from_v < n; ++from_v) {
+        for (int cluster = 0; cluster < n; cluster++) {
+            int cluster_from = prefix_sum_cluster_sizes[cluster];
+            int cluster_to = prefix_sum_cluster_sizes[cluster + 1];
+
             ClusterEdge edge = ClusterEdge();
 
-            //  the most inefficient part for sparse graph
-            for (int i = v_indices[from_v]; i < v_indices[from_v + 1]; ++i) {
-                ClusterEdge e = to_cluster_buf[i];
-                if (get_cluster_leader(cluster_ids, e.to_v) == to_v) {
-                    edge = e;
-                    break;
+            for (int i = cluster_from; i < cluster_to; ++i) {
+                int from_v = cluster_members[i];
+
+                for (int i = v_indices[from_v]; i < v_indices[from_v + 1]; ++i) {
+                    ClusterEdge e = to_cluster_buf[i];
+                    if (get_cluster_leader(cluster_ids, e.to_v) == to_v && e.weight < edge.weight) {
+                        edge = e;
+                        break;
+                    }
                 }
             }
 
             if (edge.from_v != -1) {
-                for (int k = 0; k < edge_count + 1; ++k) {
-                    if (get_cluster_leader(cluster_ids, edge.from_v) == get_cluster_leader(cluster_ids, cluster_edges[k].from_v)) {
-                        if (edge.weight < cluster_edges[k].weight) {
-                            cluster_edges[k] = edge;
-                            edge_count++;
-                        } 
-                        break;
-                    // empty slot
-                    } else if (k == edge_count) {
-                        cluster_edges[k] = edge;
-                        edge_count++;
-                        break;
-                    }
-                }
+                cluster_edges[edge_count] = edge;
+                edge_count++;
             }
         }
 
@@ -330,7 +326,7 @@ __global__ void min_from_cluster_kernel_sparse(
 
         // For all non empty cluster_edges, update cluster_ids
         for (int k = 0; k < mu; ++k) {
-            from_cluster_buf[cluster_leader_sizesGPU[to_v] + k] = cluster_edges[k];
+            from_cluster_buf[cluster_leader_sizes[to_v] + k] = cluster_edges[k];
         }
     }
 }

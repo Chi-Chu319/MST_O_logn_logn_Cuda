@@ -1,4 +1,4 @@
-num_vertex_local,total,cpu,min_from_cluster_kernel,min_to_cluster_kernel,DtoH,HtoD
+num_vertices_local,total,cpu,min_from_cluster_kernel,min_to_cluster_kernel,DtoH,HtoD
 1,518.672363,19,487.79,2.0462,1.8,0.52947
 2,685.560425,19,654.87,3.776,1.3677,0.10656
 4,1116.187866,19,1082.45,6.8661,1.6148,0.52601
